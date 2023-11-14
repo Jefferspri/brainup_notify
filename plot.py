@@ -4,7 +4,7 @@ import numpy as np
 from scipy.ndimage import gaussian_filter1d
 
 
-df_all_features = pd.read_csv("exports/all_features_fabrizio.csv")
+df_all_features = pd.read_csv("exports/all_features_jose___.csv")
 
 
 # ----------------- PLOT 1
@@ -14,8 +14,8 @@ energy = df_all_features["AF8_total_energy"].to_numpy()
 zcr = df_all_features["AF8_zcr"]
 zcr_dir = df_all_features["AF8_zcr_dir"]
 
-tr_smooth = gaussian_filter1d(tr, sigma=0.5)
-energy_smooth = gaussian_filter1d(energy, sigma=0.5)
+tr_smooth = tr#gaussian_filter1d(tr, sigma=0.5)
+energy_smooth = energy#gaussian_filter1d(energy, sigma=0.5)
 
 xx = np.linspace(0, 5.07, num=df_all_features["vtc"].shape[0])
 

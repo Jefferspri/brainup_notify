@@ -424,13 +424,13 @@ class FourthPage(tk.Frame):
 
         for j in range(8):#el 60 es para 8 minutos, 6 es para prueba de 48 seg, 15 para 2 minutos
             x = random.sample(range(1,11),9)
-            lista = ['pics/notify/ct{}.jpg'.format(i) for i in x] 
+            lista = ['pics/notif/ct{}.jpg'.format(i) for i in x] 
 
             now_rand_mt = random.randrange(1,11)
             while last_rand_mt == now_rand_mt:
                 now_rand_mt = random.randrange(1,11)
 
-            lista.insert(random.randrange(0,10),'pics/notify/mt{}.jpg'.format(now_rand_mt))
+            lista.insert(random.randrange(0,10),'pics/notif/mt{}.jpg'.format(now_rand_mt))
             last_rand_mt = now_rand_mt
             lista_final.extend(lista)
 
@@ -497,15 +497,15 @@ class FourthPage(tk.Frame):
         self.btn_result["state"] = "normal"
         print("Recording Started.")
         
-        #inicio = time.time()
+        inicio = time.time()
         counter = 1
 
         for i in range(len(images)):
             self.lbl_img.config(image = images[i])
             self.update()
             if i%4 == 0:
-                #print(time.time()- inicio)
-                #inicio = time.time()
+                print(time.time()- inicio)
+                inicio = time.time()
                 t_details["time"].append(datetime.datetime.now()) # transition start time
                 t_details["tag"].append(lst_random_images[counter]) # save name of image destination, ct o mt
                 counter += 1
@@ -672,7 +672,7 @@ class FivePage(tk.Frame):
         # Number of experiment
         df_features["n_experiment"] = [100 for l in range(df_features.shape[0])]
         df_all_features = df_features.fillna(0)
-        df_all_features.to_csv("all_features_"+user_info+".csv", index=False)
+        df_all_features.to_csv("exports/all_features_"+user_info+".csv", index=False)
 
         # Train LGBM Regressor
         str_tr_mean, mape, rmse, y_test, y_pred = pfunc.train_lgbm_regressor(df_all_features, user_info)
@@ -713,7 +713,7 @@ class FivePage(tk.Frame):
         zcr_dir = df_all_features["AF8_zcr_dir"]
 
         # smooth 
-        tr_smooth = gaussian_filter1d(tr, sigma=0.5)
+        tr_smooth = tr #gaussian_filter1d(tr, sigma=0.5)
         energy_smooth = gaussian_filter1d(energy, sigma=0.5)
 
         xx = np.linspace(0, 5.07, num=df_all_features["vtc"].shape[0])
@@ -727,7 +727,7 @@ class FivePage(tk.Frame):
         self.axes2.plot(xx,zcr_dir-1)
         self.axes2.axvline(x=2, linewidth=2, color='gray', linestyle="--")
         self.axes2.axvline(x=3, linewidth=2, color='gray', linestyle="--")
-        self.axes2.suptitle('TR y Características AF8 EEG ZCR')
+        self.axes2.set_title('TR y Características AF8 EEG ZCR')
         self.axes2.legend(['vtc','class','tr', 'energy', 'zcr', 'zcr_dir'])
         self.axes2.grid(True)
         self.figure_canvas2.draw()
